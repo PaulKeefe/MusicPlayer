@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="MusicPlayer.Dial"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MusicPlayer"
+             mc:Ignorable="d"
+             x:Name="ADial"
+             Width="43"
+             Height="43"
+             d:DesignHeight="43"
+             d:DesignWidth="43">
+    <Grid 
+              MouseMove="Grid_MouseMove" 
+              MouseDown="Grid_MouseDown"
+          MouseUp="Grid_MouseUp">
+        <Label Foreground="{DynamicResource InterfaceGold}"
+               FontSize="5"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               Margin="-34,-5,0,0">-10</Label>
+        <Label Foreground="{DynamicResource InterfaceGold}"
+               FontSize="5"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               Margin="0,-5,-34,0">+10</Label>
+        <Label Foreground="{DynamicResource InterfaceGold}"
+               FontSize="5"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Center"
+               Margin="-34,0,0,-4">-30</Label>
+        <Label Foreground="{DynamicResource InterfaceGold}"
+               FontSize="5"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Center"
+               Margin="0,0,-34,-4">+30</Label>
+        <Grid Width="33" Height="33">
+            <Ellipse x:Name="pizza"
+                     Width="33"
+                     Height="33">
+                <Ellipse.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1"
+                                         StartPoint="0.5,0">
+                        <GradientStop Color="#FFC09A67"
+                                      Offset="0" />
+                        <GradientStop Color="#00C09A67"
+                                      Offset=".8" />
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Grid>
+        <Grid>
+            <Rectangle Width="1"
+                       Height="16"
+                       Fill="#FF323232"
+                       Margin="0,-16,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            <Rectangle Width="1"
+                       Height="33"
+                       Fill="#FF323232"
+                       Margin="0,2,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Rectangle.RenderTransform>
+                    <RotateTransform CenterX="0"
+                                     CenterY="16"
+                                     Angle="-90" />                  
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Width="1"
+                       Height="32"
+                       Fill="#FF323232"
+                       Margin="0,0,1,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Rectangle.RenderTransform>
+                    <RotateTransform CenterX="0"
+                                     CenterY="16"
+                                     Angle="-45" />
+                    
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle Width="1"
+                       Height="32"
+                       Fill="#FF323232"
+                       Margin="1,0,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Rectangle.RenderTransform>
+                    <RotateTransform CenterX="0"
+                                     CenterY="16"
+                                     Angle="45" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </Grid>
+        <Ellipse Fill="{DynamicResource BlockFill}"
+                 Stroke="{DynamicResource BorderBrush}"
+                 StrokeThickness="3"
+                 Width="28"
+                 Height="28" />
+        <Grid x:Name="indicator"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Width="33"
+              Height="33"
+              MinHeight="33"
+              MinWidth="33">
+            <Grid.RenderTransform>
+                <RotateTransform CenterX="16.5"
+                                 CenterY="16.5" 
+                                 Angle="{Binding ElementName=ADial, Path=Angle}" />
+            </Grid.RenderTransform>
+            <Rectangle Width="1"
+                       Height="4"
+                       Fill="White"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Margin="0,4,0,0" />
+        </Grid>
+        <Ellipse Fill="{DynamicResource BlockFill}"
+                 Stroke="{DynamicResource BorderBrush}"
+                 StrokeThickness="2"
+                 Width="12"
+                 Height="12" />
+    </Grid>
+</UserControl>

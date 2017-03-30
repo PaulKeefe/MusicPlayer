@@ -1,0 +1,401 @@
+﻿<Window x:Class="MusicPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicPlayer"
+        mc:Ignorable="d"
+        Title="Keefe Music Player"
+        Height="605"
+        Width="550"
+        MinHeight="605"
+        MinWidth="550"
+        MaxHeight="605"
+        MaxWidth="550"
+        Background="DarkGray"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Window.CommandBindings>
+        <CommandBinding Command="Open"
+                        Executed="OpenFile_Executed"
+                        CanExecute="OpenFile_CanExecute" />
+        <CommandBinding Command="Play"
+                        Executed="PlayToggle_Executed"
+                        CanExecute="PlayToggle_CanExecute" />
+        <CommandBinding Command="Stop"
+                        Executed="Stop_Executed"
+                        CanExecute="Stop_CanExecute" />
+    </Window.CommandBindings>
+    <Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="boolVisibilityConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Rectangle Margin="0"
+                   Stroke="Black"
+                   Fill="{DynamicResource BackgroundBrush}" />
+        <DockPanel LastChildFill="True">
+            <WrapPanel DockPanel.Dock="Top"
+                       Margin="16, 10">
+                <Button x:Name="OpenSongButton"
+                        ToolTip="Open Song File"
+                        Command="Open"
+                        Style="{StaticResource BaseButtonStyle}">
+                    <Polygon Points="1,2 6,2 8,4 18,4 18,17 1,17"
+                             Stroke="{StaticResource BorderBrush}"
+                             StrokeThickness="1"
+                             Fill="{StaticResource GradientBlock}" />
+                </Button>
+                <Label x:Name="SongTitleLabel"
+                       Content="{Binding FileName}"
+                       ToolTip="Currently Playing"
+                       Width="275"
+                       BorderThickness="1"
+                       Background="{DynamicResource BlockFill}"
+                       BorderBrush="{DynamicResource LightStroke}"
+                       Foreground="{DynamicResource LightFont}"
+                       Margin="10,0,0,0"
+                       MouseDoubleClick="SongTitleLabel_MouseDoubleClick" />
+                <Button x:Name="StopButton"
+                        Command="Stop"
+                        Margin="10,0,0,0"
+                        Style="{StaticResource BaseButtonStyle}">
+                    <Polygon Points="1,1 16,1 16,16 1,16"
+                             Stroke="{StaticResource BorderBrush}"
+                             StrokeThickness="1"
+                             Fill="Red" />
+                </Button>
+                <Button x:Name="PlayButton"
+                        Command="Play"
+                        Margin="4,0,0,0"
+                        Style="{StaticResource BaseButtonStyle}">
+                    <Grid>
+                        <Grid x:Name="pauseIcon"
+                              Visibility="{Binding ShowPauseButton, Converter={StaticResource boolVisibilityConverter}}">
+                            <Polygon Points="1,1 12,9.5 1,18"
+                                     Margin="4,0,2,0"
+                                     Stroke="{StaticResource BorderBrush}"
+                                     StrokeThickness="1"
+                                     Fill="LawnGreen"
+                                     Visibility="Hidden"/>
+                            <Polygon Points="2,2 8,2 8,17 2,17"
+                                     Stroke="{StaticResource BorderBrush}"
+                                     StrokeThickness="1"
+                                     Fill="LawnGreen" />
+                            <Polygon Points="12,2 18,2 18,17 12,17"
+                                     Stroke="{StaticResource BorderBrush}"
+                                     StrokeThickness="1"
+                                     Fill="LawnGreen" />
+                        </Grid>
+                        <Grid x:Name="playIcon"
+                                     Visibility="{Binding ShowPlayButton, Converter={StaticResource boolVisibilityConverter}}">
+                            <Polygon Points="1,1 12,9.5 1,18"
+                                     Margin="4,0,2,0"
+                                     Stroke="{StaticResource BorderBrush}"
+                                     StrokeThickness="1"
+                                     Fill="LawnGreen" />
+                        </Grid>
+                    </Grid>
+                </Button>
+                <ComboBox x:Name="comboDevices"
+                          Width="104"
+                          ItemsSource="{Binding Devices}"
+                          SelectedIndex="{Binding DeviceSelection}"
+                          SelectionChanged="comboDevices_SelectionChanged"
+                          Margin="10,0,0,0"
+                          Style="{DynamicResource ComboBoxStyle1}"
+                          Foreground="{DynamicResource LightFont}"
+                          VerticalContentAlignment="Center" />
+            </WrapPanel>
+            <Grid DockPanel.Dock="Bottom"
+                        Margin="16,10"
+                        Height="145">
+                <Rectangle Style="{StaticResource EQViewRect}"
+                           Margin="0,-18,6,0"
+                           Fill="#FF323232"
+                           Width="104"
+                           HorizontalAlignment="Right"
+                           Height="36"
+                           VerticalAlignment="Top" />
+                <Label Foreground="{StaticResource LightFont}"
+                       Margin="0,-19,12,0"
+                       FontSize="16"
+                       VerticalAlignment="Top"
+                       FontFamily="Sonic XBd BT"
+                       HorizontalAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Right">Waveform</Label>
+                <Grid Height="125"
+                      Margin="0">
+                    <Rectangle Style="{StaticResource ViewRect}" />
+                    <ScrollViewer x:Name="waveformScroller"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Hidden"
+                                  Margin="3"
+                                  Style="{DynamicResource styleScrollViewer}">
+                        <Grid>
+                            <Grid Margin="0,5">
+                                <Polygon  x:Name="waveformCanvas" 
+                                          Fill="{StaticResource WaveformBrush}"
+                                          FillRule="EvenOdd"
+                                          Stroke="Black"
+                                          StrokeThickness="1"
+                                          SizeChanged="waveformCanvas_SizeChanged"
+                                          MouseUp="waveformCanvas_MouseUp"
+                                          Points="{Binding Waveform, Mode=TwoWay}" />
+                            </Grid>
+                            <Rectangle x:Name="waveformCursor"
+                                       Width="1"
+                                       Fill="Cyan"
+                                       Opacity="0.8"
+                                       HorizontalAlignment="Left"
+                                       Margin="{Binding WaveformCursorLocation, Mode=TwoWay}" />
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+            <Grid DockPanel.Dock="Right"
+                  Margin="16,0,16,0"
+                  Width="100">
+                <Grid VerticalAlignment="Top">
+                    <Rectangle Style="{StaticResource EQViewRect}"
+                               Margin="8,0,0,-26"
+                               Fill="#FF323232"
+                               HorizontalAlignment="Left"
+                               Height="36"
+                               VerticalAlignment="Bottom"
+                               Width="83" />
+                    <Label Foreground="{StaticResource LightFont}"
+                           Margin="15,0,0,-27"
+                           FontSize="16"
+                           VerticalAlignment="Bottom"
+                           FontFamily="Sonic XBd BT"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center">Master</Label>
+                <Path Stroke="#FF686868"
+                      StrokeThickness="1"
+                      Fill="{DynamicResource BackgroundBrush}"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Margin="0,0,4,2">
+                    <Path.Data>
+                        <!-- Combines two geometries using the union combine mode. -->
+                        <CombinedGeometry GeometryCombineMode="Union">
+                            <CombinedGeometry.Geometry1>
+                                <RectangleGeometry RadiusX="3"
+                                                   RadiusY="3"
+                                                   Rect="4,10,48,258" />
+                            </CombinedGeometry.Geometry1>
+                            <CombinedGeometry.Geometry2>
+                                <RectangleGeometry RadiusX="3"
+                                                   RadiusY="3"
+                                                   Rect="30,50,66,218" />
+                            </CombinedGeometry.Geometry2>
+                        </CombinedGeometry>
+                    </Path.Data>
+                </Path>
+                <Slider x:Name="volumeSlider"
+                        Orientation="Vertical"
+                        Height="200"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Maximum="1.2"
+                        TickPlacement="Both"
+                        TickFrequency="0.2"
+                        LargeChange="0.2"
+                        SmallChange="0.01"
+                        Value="{Binding Volume}"
+                        Margin="0,0,15,12"
+                        Style="{DynamicResource AudioSliderStyle}" />
+                <local:StereoChannelControl x:Name="stereoChannelLeft"
+                                            Volume="{Binding SoundChannelLeft, Mode=TwoWay}"
+                                            HorizontalAlignment="Right"
+                                            Width="240"
+                                            Height="12"
+                                            VerticalAlignment="Bottom"
+                                            Margin="0,0,-152,0">
+                    <local:StereoChannelControl.RenderTransform>
+                        <RotateTransform Angle="-90"
+                                         CenterX="0"
+                                         CenterY="0" />
+                    </local:StereoChannelControl.RenderTransform>
+                </local:StereoChannelControl>
+                <local:StereoChannelControl x:Name="stereoChannelRight"
+                                            Volume="{Binding SoundChannelRight, Mode=TwoWay}"
+                                            HorizontalAlignment="Right"
+                                            Width="240"
+                                            Height="12"
+                                            VerticalAlignment="Bottom"
+                                            Margin="0,0,-170,0">
+                    <local:StereoChannelControl.RenderTransform>
+                        <RotateTransform Angle="-90"
+                                         CenterX="0"
+                                         CenterY="0" />
+                    </local:StereoChannelControl.RenderTransform>
+                    </local:StereoChannelControl>
+                </Grid>
+            </Grid>
+            <StackPanel Margin="16,10,16,0">
+                <Grid x:Name="SpectrumView">
+                    <Grid x:Name="EQView"
+                          Width="242"
+                          VerticalAlignment="Bottom"
+                          Margin="0,0,-95,-56"
+                          MinHeight="100">
+                        <Rectangle Style="{StaticResource EQViewRect}"
+                                   Margin="0"
+                                   Fill="#FF323232" />
+                        <WrapPanel x:Name="EQControls"
+                                   VerticalAlignment="Bottom"
+                                   Margin="0,0,0,10">
+                            <Label Foreground="{StaticResource LightFont}"
+                                   VerticalContentAlignment="Bottom"
+                                   Margin="11,0,0,2"
+                                   FontSize="16"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Sonic XBd BT">EQ</Label>
+                            <local:Dial x:Name="eqLow"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Margin="8,0,0,0"
+                                        Angle="{Binding EQLow, Mode=TwoWay}"
+                                        MinimumGain="{Binding MinEQGain}"
+                                        MaximumGain="{Binding MaxEQGain}"
+                                        PropertyChanged="eqLow_PropertyChanged"/>
+                            <local:Dial x:Name="eqMid"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Margin="5,0,0,0"
+                                        Angle="{Binding EQMid, Mode=TwoWay}"
+                                        MinimumGain="{Binding MinEQGain}"
+                                        MaximumGain="{Binding MaxEQGain}"
+                                        PropertyChanged="eqMid_PropertyChanged"/>
+                            <local:Dial x:Name="eqHighMid"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Margin="5,0,0,0"
+                                        Angle="{Binding EQHighMid, Mode=TwoWay}"
+                                        MinimumGain="{Binding MinEQGain}"
+                                        MaximumGain="{Binding MaxEQGain}"
+                                        PropertyChanged="eqHighMid_PropertyChanged"/>
+                            <local:Dial x:Name="eqHigh"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Margin="5,0,0,0"
+                                        Angle="{Binding EQHigh, Mode=TwoWay}"
+                                        MinimumGain="{Binding MinEQGain}"
+                                        MaximumGain="{Binding MaxEQGain}"
+                                        PropertyChanged="eqHigh_PropertyChanged"/>
+                        </WrapPanel>
+                        <WrapPanel VerticalAlignment="Bottom"
+                                   Margin="0,0,0,-1">
+                            <WrapPanel.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="Foreground"
+                                            Value="{StaticResource InterfaceGold}" />
+                                    <Setter Property="FontSize"
+                                            Value="7" />
+                                </Style>
+                            </WrapPanel.Resources>
+                            <Label Margin="58,0,0,0"
+                                   HorizontalContentAlignment="Center">Low</Label>
+                            <Label Margin="18,0,0,0"
+                                   HorizontalContentAlignment="Center">Low-Mid</Label>
+                            <Label Margin="10,0,0,0"
+                                   HorizontalContentAlignment="Center">High-Mid</Label>
+                            <Label Margin="16,0,0,0"
+                                   HorizontalContentAlignment="Center">High</Label>
+                        </WrapPanel>
+                    </Grid>
+                    <Rectangle Style="{StaticResource EQViewRect}"
+                               Margin="6,0,0,0"
+                               Fill="#FF323232"
+                               Width="204"
+                               HorizontalAlignment="Left"
+                               Height="36"
+                               VerticalAlignment="Top" />
+                    <Label Foreground="{StaticResource LightFont}"
+                           Margin="12,-2,0,0"
+                           FontSize="16"
+                           VerticalAlignment="Top"
+                           FontFamily="Sonic XBd BT"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center">Peak Frequencies</Label>
+                    <local:EqualizerDisplay 
+                        MinimumDbLevel="{Binding EQMinimumDb}"
+                        Magnitudes="{Binding EQFrequencyMagnitudes}"
+                                            Margin="0,28,0,0"
+                                            Width="Auto" />
+                </Grid>
+                <Grid x:Name="TimeControls"
+                      Margin="0,74,0,0"
+                      Height="78">
+                    <Rectangle Style="{StaticResource ViewRect}"
+                               Margin="0"
+                               Fill="#FF323232" />
+                    <Label Foreground="{StaticResource LightFont}"
+                           Margin="12,-2,0,0"
+                           FontSize="16"
+                           VerticalAlignment="Top"
+                           FontFamily="Sonic XBd BT"
+                           HorizontalAlignment="Left"
+                           VerticalContentAlignment="Center">Timeline</Label>
+                    <Grid Margin="10,0,10,28"
+                          VerticalAlignment="Bottom">
+                        <Label x:Name="LocationLabel"
+                               Content="{Binding LocationDisplay}"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Foreground="{DynamicResource LightFont}" />
+                        <Label x:Name="DurationLabel"
+                               Content="{Binding DurationDisplay}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               HorizontalContentAlignment="Right"
+                               Foreground="{DynamicResource LightFont}" />
+                    </Grid>
+                    <Slider x:Name="PositionSlider"
+                            VerticalAlignment="Bottom"
+                            TickPlacement="BottomRight"
+                            SmallChange="0.01"
+                            TickFrequency="{Binding TickFrequency}"
+                            Maximum="{Binding Duration}"
+                            Value="{Binding SongLocation}"
+                            Style="{DynamicResource TimeSlider}"
+                            ValueChanged="volumeSlider_ValueChanged"
+                            Thumb.DragStarted="PositionSlider_DragStarted"
+                            Thumb.DragDelta="PositionSlider_DragDelta"
+                            Thumb.DragCompleted="PositionSlider_DragCompleted"
+                            Margin="10,0,10,6" />
+                </Grid>
+            </StackPanel>
+        </DockPanel>
+        <Grid x:Name="LoadingScreen" 
+              Visibility="{Binding IsLoading, Converter={StaticResource boolVisibilityConverter}}">
+            <Rectangle Margin="0"
+                       Stroke="Black"
+                       Fill="#77000000" />
+            <Label Content="Loading..."
+                   HorizontalAlignment="Center"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="{DynamicResource InterfaceBlue}"
+                   FontSize="72"
+                   Margin="0,0,0,100" />
+        </Grid>
+    </Grid>
+</Window>

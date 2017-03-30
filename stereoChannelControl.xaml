@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="MusicPlayer.StereoChannelControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MusicPlayer"
+             mc:Ignorable="d"
+             d:DesignWidth="150"
+             x:Name="VolumeSlider"
+             Height="12">
+    <Grid>
+        <ProgressBar x:Name="channelBar" Grid.Column="0"
+                     Style="{StaticResource ProgressBar-Volume}"
+                     Value="{Binding Path=Volume, ElementName=VolumeSlider}"
+                     Orientation="Vertical"
+                     VerticalContentAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch"
+                     Margin="0,0,10,0" />
+        <Rectangle x:Name="channelUnderload"
+                   Grid.Column="1"
+                   Width="8"
+                   Fill="#FF595959"
+                   Stroke="#FF232528"
+                   HorizontalAlignment="Right" />
+        <Rectangle x:Name="channelOverload"
+                   Grid.Column="1"
+                   Visibility="Hidden"
+                   Width="8"
+                   Fill="Red"
+                   Stroke="#FF232528"
+                   HorizontalAlignment="Right" />
+    </Grid>
+</UserControl>
