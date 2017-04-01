@@ -7,7 +7,7 @@ NAudio was used to open MP3 files and play them and includes the FFT transforms;
 
 You can download an installer for the exe here: https://github.com/PaulKeefe/MusicPlayer/blob/master/MusicPlayer.zip 
 
-Here is an image of the app in use (the song playing is by Jeff Beck):
+Here is an image of the app in use (the song playing is from "Blow by Blow" by Jeff Beck):
 
 ![alt tag](https://github.com/PaulKeefe/MusicPlayer/blob/master/wpf_music_player.png)
 
