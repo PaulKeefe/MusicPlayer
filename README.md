@@ -9,7 +9,7 @@ You can download an installer for the exe here: https://github.com/PaulKeefe/Mus
 
 # Super Q
 Added a draggy style semi-parametric EQ. Simply drag and listen to the frequency (x axis) and gain (y axis) change simultaneously. Very cool (to me anyway).
-![Super Q](https://github.com/PaulKeefe/MusicPlayer/blog/master/superQ.png)
+![Super Q](https://github.com/PaulKeefe/MusicPlayer/blob/master/superQ.png)
 
 Here is an image of the app in use (the song playing is from "Blow by Blow" by Jeff Beck):
 
