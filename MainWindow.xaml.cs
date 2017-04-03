@@ -147,5 +147,26 @@ namespace MusicPlayer
         {
             (DataContext as ViewModel).Engine.ReadyAudioEngine(comboDevices.SelectedIndex);
         }
+
+        private void TAB_PeakMeter_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            LED_PeakMeter.Visibility = Visibility.Visible;
+            LED_SuperQ.Visibility = Visibility.Hidden;
+            SpectrumView.Visibility = Visibility.Visible;
+            SuperQView.Visibility = Visibility.Hidden;
+        }
+
+        private void TAB_SuperQ_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            LED_SuperQ.Visibility = Visibility.Visible;
+            LED_PeakMeter.Visibility = Visibility.Hidden;
+            SuperQView.Visibility = Visibility.Visible;
+            SpectrumView.Visibility = Visibility.Hidden;
+        }
+
+        private void SuperQView_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            (DataContext as ViewModel).SuperQUpdate(SuperQView.Loudness);
+        }
     }
 }

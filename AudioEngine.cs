@@ -263,32 +263,6 @@ namespace MusicPlayer
 
         public float Band1
         {
-            get { return _bands[0].Gain; }
-            set
-            {
-                if (_bands[0].Gain != value)
-                {
-                    _bands[0].Gain = value;
-                    equalizer?.Update();
-                }
-            }
-        }
-
-        public float Band2
-        {
-            get { return _bands[1].Gain; }
-            set
-            {
-                if (_bands[1].Gain != value)
-                {
-                    _bands[1].Gain = value;
-                    equalizer?.Update();
-                }
-            }
-        }
-
-        public float Band3
-        {
             get { return _bands[2].Gain; }
             set
             {
@@ -300,39 +274,92 @@ namespace MusicPlayer
             }
         }
 
-        public float Band4
+        public float Band2
         {
-            get { return _bands[3].Gain; }
+            get { return _bands[4].Gain; }
             set
             {
-                if (_bands[3].Gain != value)
+                if (_bands[4].Gain != value)
                 {
-                    _bands[3].Gain = value;
+                    _bands[4].Gain = value;
                     equalizer?.Update();
                 }
             }
+        }
+
+        public float Band3
+        {
+            get { return _bands[6].Gain; }
+            set
+            {
+                if (_bands[6].Gain != value)
+                {
+                    _bands[6].Gain = value;
+                    equalizer?.Update();
+                }
+            }
+        }
+
+        public float Band4
+        {
+            get { return _bands[9].Gain; }
+            set
+            {
+                if (_bands[9].Gain != value)
+                {
+                    _bands[9].Gain = value;
+                    equalizer?.Update();
+                }
+            }
+        }
+
+        public void BandUpdate(double[] semiParameters)
+        {
+            // first flatten all frequencies
+            foreach (var a in _bands)
+            {
+                a.Gain = 0;
+                a.Bandwidth = 0.8f;
+            }
+
+            // then boost or cut the closest (lower) value
+            EqualizerBand band = null;
+            foreach (var b in _bands)
+            {
+                if (b.Frequency <= semiParameters[0]){
+                    band = b;
+                } else
+                {
+                    break;
+                }
+            }
+
+            if (band != null)
+            {
+                band.Gain = (float)semiParameters[2];
+                band.Bandwidth = (float)semiParameters[1];
+            }
+            equalizer?.Update();
         }
 
         private void CreateEQBands()
         {
             _bands = new EqualizerBand[]
             {
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 250, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 500, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1000, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 3500, Gain = 0}
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 100, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 200, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 250, Gain = 0}, // [2] LO
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 400, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 500, Gain = 0}, // [4] LO-MID
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 800, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1000, Gain = 0}, // [6] HI-MID
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1200, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 2400, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 3500, Gain = 0}, // [9] HI
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 4800, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 9600, Gain = 0},
+                new EqualizerBand {Bandwidth = 0.8f, Frequency = 15000, Gain = 0}
             };
-            //_bands = new EqualizerBand[]
-            //{
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 100, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 200, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 400, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 800, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 1200, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 2400, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 4800, Gain = 0},
-            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 9600, Gain = 0},
-            //};
         }
 
         private void CreateWaveform()

@@ -423,6 +423,12 @@ namespace MusicPlayer
         }
 
 
+        public void SuperQUpdate(double[] loudness)
+        {
+            _model?.BandUpdate(loudness);
+        }
+
+
         private void EnableControls(bool IsPlaying)
         {
             EQLow = 0;
