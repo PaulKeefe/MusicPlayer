@@ -12,6 +12,7 @@ Added a draggy style semi-parametric EQ. Simply drag and listen to the frequency
 
 ![Super Q](https://github.com/PaulKeefe/MusicPlayer/blob/master/superQ.png)
 
+# Peak Frequencies, Timeline, and Waveforms
 Here is an image of the app in use (the song playing is from "Blow by Blow" by Jeff Beck):
 
 ![Keefe Music Player](https://github.com/PaulKeefe/MusicPlayer/blob/master/wpf_music_player.png)
