@@ -168,5 +168,10 @@ namespace MusicPlayer
         {
             (DataContext as ViewModel).SuperQUpdate(SuperQView.Loudness);
         }
+
+        private void ResetEQButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as ViewModel).ResetEQ();
+        }
     }
 }

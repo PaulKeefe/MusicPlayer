@@ -53,14 +53,6 @@ namespace MusicPlayer
             }
         }
 
-
-        private SuperQ _activated = null;
-
-        private void ManipulationPad_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            _activated = this;
-        }
-
         private void Reset()
         {
             var dragMargin = DraggerEye.Margin;
@@ -74,6 +66,25 @@ namespace MusicPlayer
             dragYMargin.Top = _draggerYOffset;
             DraggerHorz.Margin = dragYMargin;
             Slider_Bandwidth.Value = 0.8;
+            ResetEQ();
+        }
+
+        private void ResetEQ()
+        {
+            double freq = 0;
+            double volume = 0;
+            Hertz.Content = $"Frequency: {freq:0}kHz";
+            BoostCut.Content = $"Gain: {volume:0}dB";
+            Loudness = new double[] { freq, _bandwidth, volume };
+        }
+
+
+        private SuperQ _activated = null;
+
+        private void ManipulationPad_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _activated = this;
+            this.ResetEQ();
         }
 
         private void ManipulationPad_MouseMove(object sender, MouseEventArgs e)
@@ -140,6 +151,11 @@ namespace MusicPlayer
         {
             _bandwidth = e.NewValue;
             Debug.WriteLine($"Value of Bandwidth: {e.NewValue}");
+        }
+
+        private void ResetSuperQButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Reset();
         }
     }
 }

@@ -326,13 +326,13 @@
                                VerticalContentAlignment="Center"
                                HorizontalContentAlignment="Right">Super-Q</Label>
                     </Grid>
-                    <local:SuperQ x:Name="SuperQView" 
+                    <local:SuperQ x:Name="SuperQView"
                                   Margin="0,28,0,0"
                                   Visibility="Hidden"
-                                  PropertyChanged="SuperQView_PropertyChanged"/>
+                                  PropertyChanged="SuperQView_PropertyChanged" />
                     <Grid x:Name="SpectrumView">
                         <Grid x:Name="EQView"
-                              Width="242"
+                              Width="246"
                               VerticalAlignment="Bottom"
                               Margin="0,0,-95,-56"
                               MinHeight="100">
@@ -342,12 +342,46 @@
                             <WrapPanel x:Name="EQControls"
                                        VerticalAlignment="Bottom"
                                        Margin="0,0,0,10">
-                                <Label Foreground="{StaticResource LightFont}"
-                                       VerticalContentAlignment="Bottom"
-                                       Margin="11,0,0,2"
-                                       FontSize="16"
-                                       VerticalAlignment="Center"
-                                       FontFamily="Sonic XBd BT">EQ</Label>
+                                <Grid Margin="0,0,0,-6">
+                                    <Label Foreground="{StaticResource LightFont}"
+                                           VerticalContentAlignment="Bottom"
+                                           Margin="8,6,0,0"
+                                           FontSize="16"
+                                           VerticalAlignment="Top"
+                                           FontFamily="Sonic XBd BT"
+                                           HorizontalContentAlignment="Center">EQ</Label>
+                                    <Grid x:Name="ResetEQButton"
+                                                Width="38"
+                                                Height="18"
+                                                VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Left"
+                                                Margin="7,0,0,0"
+                                          MouseUp="ResetEQButton_MouseUp">
+                                        <Rectangle Stroke="{DynamicResource BorderBrush}">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1"
+                                                                     MappingMode="RelativeToBoundingBox"
+                                                                     StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF931D1D"
+                                                                  Offset="0.003" />
+                                                    <GradientStop Color="#FF931D1D"
+                                                                  Offset="1" />
+                                                    <GradientStop Color="#FFBD1818"
+                                                                  Offset="0.484" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Label
+                                            FontFamily="Segoe UI Semibold"
+                                               FontSize="10"
+                                               Foreground="{DynamicResource InterfaceGold}"
+                                               Margin="0,0,0,-3"
+                                               VerticalContentAlignment="Stretch"
+                                               Height="24"
+                                               VerticalAlignment="Bottom"
+                                               HorizontalContentAlignment="Center">Reset</Label>
+                                    </Grid>
+                                </Grid>
                                 <local:Dial x:Name="eqLow"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Bottom"

@@ -249,5 +249,36 @@
                 LargeChange="0.1"
                 SmallChange="0.01"
                 TickFrequency="0.1" />
+        <Grid x:Name="ResetSuperQButton"
+              Width="38"
+              Height="18"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Right"
+              Margin="0,0,16,8"
+              MouseUp="ResetSuperQButton_MouseUp">
+            <Rectangle Stroke="{DynamicResource BorderBrush}">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1"
+                                         MappingMode="RelativeToBoundingBox"
+                                         StartPoint="0.5,0">
+                        <GradientStop Color="#FF931D1D"
+                                      Offset="0.003" />
+                        <GradientStop Color="#FF931D1D"
+                                      Offset="1" />
+                        <GradientStop Color="#FFBD1818"
+                                      Offset="0.484" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Label FontFamily="Segoe UI Semibold"
+                   FontSize="10"
+                   Foreground="{DynamicResource InterfaceGold}"
+                   Margin="0,0,0,-3"
+                   VerticalContentAlignment="Stretch"
+                   Height="24"
+                   VerticalAlignment="Bottom"
+                   HorizontalContentAlignment="Center">Reset</Label>
+        </Grid>
+
     </Grid>
 </UserControl>

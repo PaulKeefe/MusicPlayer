@@ -324,13 +324,18 @@ namespace MusicPlayer
 
             // then boost or cut the closest (lower) value
             EqualizerBand band = null;
-            foreach (var b in _bands)
+            if (semiParameters[0] > 0)
             {
-                if (b.Frequency <= semiParameters[0]){
-                    band = b;
-                } else
+                foreach (var b in _bands)
                 {
-                    break;
+                    if (b.Frequency <= semiParameters[0])
+                    {
+                        band = b;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 

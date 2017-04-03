@@ -429,7 +429,7 @@ namespace MusicPlayer
         }
 
 
-        private void EnableControls(bool IsPlaying)
+        public void ResetEQ()
         {
             EQLow = 0;
             EQMid = 0;
@@ -439,6 +439,12 @@ namespace MusicPlayer
             EQMidAmount = 0;
             EQHighMidAmount = 0;
             EQHighAmount = 0;
+        }
+
+
+        private void EnableControls(bool IsPlaying)
+        {
+            ResetEQ();
         }
 
         public void OpenSongFile()
