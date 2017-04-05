@@ -144,9 +144,14 @@
                                           FillRule="EvenOdd"
                                           Stroke="Black"
                                           StrokeThickness="1"
-                                          SizeChanged="waveformCanvas_SizeChanged"
                                           MouseUp="waveformCanvas_MouseUp"
+                                          SizeChanged="waveformCanvas_SizeChanged"
                                           Points="{Binding Waveform, Mode=TwoWay}" />
+                                <local:MarkerDisplay x:Name="waveformMarkers"
+                                                     Markers="{Binding WaveformMarkers, Mode=TwoWay}"
+                                                     HorizontalAlignment="Left"
+                                                     HorizontalContentAlignment="Left"
+                                                     Opacity="0.25" />
                             </Grid>
                             <Rectangle x:Name="waveformCursor"
                                        Width="1"

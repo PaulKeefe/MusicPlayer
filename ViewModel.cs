@@ -122,9 +122,21 @@ namespace MusicPlayer
             set
             {
                 _waveformWidth = value;
-                //OnPropertyChanged("WaveformWidth");
+                // the waveform has been drawn, so we add the markers
+                CreateWaveformMarkers();
             }
         }
+        private List<Marker> _waveformMarkers = new List<Marker>();
+        public List<Marker> WaveformMarkers
+        {
+            get => _waveformMarkers;
+            set
+            {
+                _waveformMarkers = value;
+                OnPropertyChanged("WaveformMarkers");
+            }
+        }
+
         private Thickness _waveformCursorLocation = new Thickness(0);
         public Thickness WaveformCursorLocation
         {
@@ -490,7 +502,8 @@ namespace MusicPlayer
         {
             if (e.PropertyName == "SongLoaded")
             {
-                PrepareFrequencyBinIndexes();                
+                _markersDrawn = false;
+                PrepareFrequencyBinIndexes();
                 Waveform = _model.WaveformPoints;
 
                 _songLoaded = true;
@@ -510,6 +523,33 @@ namespace MusicPlayer
             else if (e.PropertyName == "MaxFrequency")
             {
                 //Debug.WriteLine($"MaxFrequency: {_model.MaxFrequency}");
+            }
+        }
+
+        private bool _markersDrawn = true;
+        private void CreateWaveformMarkers()
+        {
+            if (!_markersDrawn)
+            {
+                double seconds = _model.Duration;
+                double points = Math.Floor(seconds / 10);
+                double marginLeft = _waveformWidth / points;
+                
+                var markers = new List<Marker>();
+
+                // note we skip 00:00
+                for (var i = 1; i <= points; i++)
+                {
+                    double time = i * 10;
+                    var mins = Math.Floor(time / 60);
+                    var secs = time - (mins * 60);
+                    var display = $"{mins:00}:{secs:00}";
+                    var marker = new Marker(display, marginLeft);
+                    markers.Add(marker);
+                }
+
+                _markersDrawn = true;
+                WaveformMarkers = markers;
             }
         }
 
@@ -632,5 +672,19 @@ namespace MusicPlayer
         {
             frequencies = new double[] { 25, 37.5, 50, 75, 100, 150, 200, 350, 500, 750, 1000, 1500, 2000, 3500, 5000, 7500, 10000, 15000, 20000 };
         }
+    }
+
+    [Serializable]
+    public class Marker
+    {
+        public Marker() { }
+        public Marker(string time, double offset)
+        {
+            Time = time;
+            Offset = offset;
+        }
+
+        public string Time { get; set; }
+        public double Offset { get; set; }
     }
 }

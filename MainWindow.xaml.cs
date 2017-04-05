@@ -59,6 +59,7 @@ namespace MusicPlayer
 
         private void waveformCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            //Debug.WriteLine($"Width: {e.NewSize.Width}");
             (DataContext as ViewModel).WaveformWidth = e.NewSize.Width;
         }
 

@@ -16,8 +16,7 @@
               Width="30"
               HorizontalAlignment="Left"
               Margin="4,0,0,0" />
-        <Border 
-                CornerRadius="1"
+        <Border CornerRadius="1"
                 Margin="16,6,16,36"
                 MouseDown="ManipulationPad_MouseDown"
                 MouseMove="ManipulationPad_MouseMove"
@@ -189,16 +188,18 @@
 
                 <Grid x:Name="Dragger"
                       Margin="0">
-                    <Rectangle x:Name="DraggerHorz" Fill="{DynamicResource LightFont}"
+                    <Rectangle x:Name="DraggerHorz"
+                               Fill="{DynamicResource LightFont}"
                                Margin="0,59,0,0"
                                Height="1"
-                               Width="1200"
+                               Width="340"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Top" />
-                    <Rectangle x:Name="DraggerVert" Fill="{DynamicResource LightFont}"
+                    <Rectangle x:Name="DraggerVert"
+                               Fill="{DynamicResource LightFont}"
                                Margin="168,0,0,0"
                                Width="1"
-                               Height="250"
+                               Height="126"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center" />
                     <Rectangle x:Name="DraggerEye"
@@ -212,13 +213,13 @@
                                HorizontalAlignment="Left" />
                 </Grid>
                 <Label x:Name="Hertz"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Width="80"
-                        Margin="0,0,0,-4"
-                        FontSize="7"
-                        Foreground="{DynamicResource InterfaceDarkBlue}"
-                        HorizontalContentAlignment="Left"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Width="80"
+                       Margin="0,0,0,-4"
+                       FontSize="7"
+                       Foreground="{DynamicResource InterfaceDarkBlue}"
+                       HorizontalContentAlignment="Left"
                        VerticalContentAlignment="Center">Frequency: 0kHz</Label>
                 <Label x:Name="BoostCut"
                        HorizontalAlignment="Right"
@@ -235,20 +236,25 @@
                Foreground="{DynamicResource LightFont}"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left"
-               Margin="14,0,0,5">Bandwidth</Label>
+               Margin="15,0,0,4">Bandwidth</Label>
+        <Polyline Stroke="{StaticResource InterfaceGold}"
+                  Points="60,147 66,147 68,139 70,147 76,147" />
+        <Polyline Stroke="{StaticResource InterfaceGold}"
+                  Points="290,147 293,147 298,139 303,147 306,147" />
         <Slider x:Name="Slider_Bandwidth"
                 HorizontalAlignment="Left"
-                Margin="60,0,0,5"
+                Margin="79,0,0,5"
                 VerticalAlignment="Bottom"
                 VerticalContentAlignment="Bottom"
-                Width="249"
+                Width="208"
                 Style="{DynamicResource TimeSlider}"
                 TickPlacement="TopLeft"
                 ValueChanged="Slider_Bandwidth_ValueChanged"
                 Maximum="1"
                 LargeChange="0.1"
                 SmallChange="0.01"
-                TickFrequency="0.1" />
+                TickFrequency="0.1"
+                Value="0.8" />
         <Grid x:Name="ResetSuperQButton"
               Width="38"
               Height="18"

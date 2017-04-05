@@ -56,8 +56,6 @@ namespace MusicPlayer
         private void Reset()
         {
             var dragMargin = DraggerEye.Margin;
-            //dragMargin.Left = ManipulationPad.ActualWidth + _draggerEyeOffset;
-            //dragMargin.Top = ManipulationPad.ActualHeight + _draggerEyeOffset;
             DraggerEye.Margin = new Thickness(164,55,0,0);
             var dragXMargin = DraggerVert.Margin;
             dragXMargin.Left = _draggerXOffset;
