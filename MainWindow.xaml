@@ -438,7 +438,7 @@
                                                 Value="7" />
                                     </Style>
                                 </WrapPanel.Resources>
-                                <Label Margin="58,0,0,0"
+                                <Label Margin="63,0,0,0"
                                        HorizontalContentAlignment="Center">Low</Label>
                                 <Label Margin="18,0,0,0"
                                        HorizontalContentAlignment="Center">Low-Mid</Label>

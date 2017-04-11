@@ -22,7 +22,8 @@
                    FontSize="10">00:00</Label>
             <Rectangle Grid.Row="1"
                        Fill="White"
-                       Width="1" />
+                       Width="1"
+                       Opacity="0.7" />
             <Label x:Name="TimeBottom" Grid.Row="2"
                    Foreground="White"
                    HorizontalAlignment="Center"
